@@ -76,8 +76,11 @@ header h1 {
   background: #f8f8ff;
   color: #f857a6;
   cursor: pointer;
-  width: 100px;
+  width: 120px;
   margin: 15px auto 0 auto;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
 }
 
 /*----------------------expense end--------------------*/
@@ -118,6 +121,7 @@ header h1 {
   justify-content: space-between;
   align-items: center;
   padding: 0 5px;
+  margin: 20px 0;
 }
 
 .myList p {

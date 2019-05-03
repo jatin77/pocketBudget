@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
+    <title>Buget App</title>
+  </head>
+
+  <body>
+    <!----------------------------header------>
+    <header>
+      <h1>Budgetator</h1>
+    </header>
+    <!----------------------------header end----------->
+    <div class="container">
+      <!---------------------------income------------>
+      <div class="income">
+        <p>Your Income</p>
+        <input type="number" class="income-amount" placeholder="$..." />
+      </div>
+      <!-----------------------------income end----------------->
+      <!-------------------------------expense--------------------->
+      <form class="expenses">
+        <p>Expense Type</p>
+        <input
+          type="text"
+          class="expense-type"
+          placeholder="Your Expenditure.."
+        /><br />
+        <p>Expense Amount</p>
+        <input type="number" class="expense-amount" placeholder="$..." />
+        <input type="submit" value="Add Expense" class="addBtn" />
+      </form>
+      <!------------------------------expense end------------------>
+      <div class="display-total">
+        <div class="incomeAmount">
+          <div class="icon">
+            <i class="fas fa-wallet"></i>
+          </div>
+          <span>Total Income</span> <br />
+          <span>$<span class="total-income">0</span></span>
+        </div>
+        <div class="leftAmount">
+          <div class="icon">
+            <i class="fas fa-piggy-bank"></i>
+          </div>
+          <span>Total Left</span> <br />
+          <span>$<span class="total-left">0</span></span>
+        </div>
+        <div class="expenseAmount">
+          <div class="icon">
+            <i class="fas fa-money-check-alt"></i>
+          </div>
+          <span>Total Expenses</span><br />
+          <span>$<span class="total-expense">0</span></span>
+        </div>
+      </div>
+      <!-------------------------my expense list------->
+      <ul class="myList"></ul>
+      <!------------------------------expense list------->
+    </div>
+    <script>
+      //variables
+      let myList = document.querySelector('.myList');
+      let incomeInput = document.querySelector('.income-amount');
+      let expenseDom = document.querySelector('.total-expense');
+      let totalLeftDom = document.querySelector('.total-left');
+      let incomeDom = document.querySelector('.total-income');
+      let expenseInput = document.querySelector('.expense-amount');
+      let expenseType = document.querySelector('.expense-type');
+      let addBtn = document.querySelector('.addBtn');
+      let expenseForm = document.querySelector('.expenses');
+      expenseForm.addEventListener('submit', addExpense);
+      //events
+      //remove expense
+      myList.addEventListener('click', remove);
+      //add income
+      incomeInput.addEventListener('change', addIncome);
+
+      //functions
+
+      //take the total income
+      function addIncome() {
+        incomeDom.textContent = this.value;
+        incomeInput.value = '';
+        check();
+      }
+      //take expense from input and display
+      function addExpense(e) {
+        e.preventDefault();
+        exAmt = expenseInput.value;
+        exType = expenseType.value;
+
+        //parent element
+        const myExpenses = document.createElement('li');
+        //add expense to li
+        myExpenses.innerHTML += ` <h2>$<span class="valueAmt">${exAmt}</span></h2>
+          <p class="expense-type">${exType}</p>
+          <span><i class="fas fa-backspace delete"></i></span>`;
+        //append li to parent
+        myList.appendChild(myExpenses);
+        //total expense
+        totalExpenses();
+        expenseForm.reset();
+      }
+      //calculating total expenses
+      function totalExpenses() {
+        //selecting all expenses from lists
+        let alllis = document.querySelectorAll('.valueAmt');
+        //initialise price
+        let prices = 0;
+        //get all expense from all lists
+        for (let i = 0; i < alllis.length; i++) {
+          prices += parseInt(alllis[i].textContent);
+        }
+        //display total expense
+        expenseDom.textContent = prices;
+        //for calculating amount left
+        check();
+      }
+      //check total amount left and display
+      function check() {
+        let total = 0;
+
+        let totalIncome = parseInt(incomeDom.textContent);
+        let totalExpense = parseInt(expenseDom.textContent);
+
+        total = totalIncome - totalExpense;
+        totalLeftDom.textContent = total;
+      }
+      //remove expense from list
+      function remove(e) {
+        if (e.target.className == 'delete');
+        e.target.parentElement.parentElement.remove();
+        totalExpenses();
+      }
+    </script>
+  </body>
+</html>
